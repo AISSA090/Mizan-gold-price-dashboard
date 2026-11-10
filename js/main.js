@@ -1,5 +1,5 @@
 import { getgoldprices } from './api.js';
-import { displayGold , displaySilver} from './ui.js';
+import { displayGold , displaySilver , displaytime} from './ui.js';
 import { calculateSilverPerGram } from './calculator.js';
  const btnactualiser=document.getElementById("button-actualiser")
 
@@ -11,12 +11,16 @@ import { calculateSilverPerGram } from './calculator.js';
     if(currency==="MAD"){
         displayGold("MAD",data)
         displaySilver("MAD",silverprice.toFixed(2))
+        displaytime(data)
     }else if(currency==="USD"){
         displayGold("USD",data)
         displaySilver("USD",silverprice.toFixed(2))
+        displaytime(data)
     }else if (currency==="EUR"){
         displayGold("EUR",data)
         displaySilver("EUR",silverprice.toFixed(2))
+        displaytime(data)
+        
     }
   })
   async function loadinitialprice() {
@@ -24,5 +28,7 @@ import { calculateSilverPerGram } from './calculator.js';
     const silverprice=calculateSilverPerGram(data.silver_usd_oz, currency, data.fx_rates["MAD"]);
     displayGold("MAD",data)
     displaySilver("MAD",silverprice.toFixed(2));
+    displaytime(data)
   }
+
   loadinitialprice();
