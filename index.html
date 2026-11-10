@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Mizan</title>
 </head>
 <body>
@@ -12,7 +13,7 @@
             <img id="logo-mizan" src="logo/mizan.png" alt="logo-mizan">
             <h1>Mizan</h1>
             </div>
-       <div>
+       <div id="left-navigation">
          <select id="currency">
             <option value="MAD">MAD ( Dirham )</option>
             <option value="USD">USD ( Dollar )</option>
@@ -23,11 +24,23 @@
     </nav>
     <main>
         <img src="logo/lhorloge.png" id="logo-horloge">
+        
         <p id="last-update"></p>
         
       <div id="metals-box">
+         
+          <div id="gold-card">
+              <h2>Gold</h2>
+              <p><span id="gold-price"></span> <span id="gold-currency"></span></p>
+          </div>
 
+          <div id="silver-card">
+              <h2>Silver</h2>
+              <p><span id="silver-price"></span> <span id="silver-currency"></span></p>
+          </div>
       </div>
+      
+      <div id="small-block">
         <div id="price-calculator">
             <p>poids (grammes)</p>
             <input id="weight">
@@ -36,6 +49,7 @@
         </div>
         <div id="diagram">
 
+        </div>
         </div>
 
     </main>
