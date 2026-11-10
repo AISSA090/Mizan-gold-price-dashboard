@@ -3,57 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Mizan</title>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen p-8 font-sans">
     
-        <nav>
-            <div class="logo">
-            <img id="logo-mizan" src="logo/mizan.png" alt="logo-mizan">
-            <h1>Mizan</h1>
-            </div>
-       <div id="left-navigation">
-         <select id="currency">
-            <option value="MAD">MAD ( Dirham )</option>
-            <option value="USD">USD ( Dollar )</option>
-            <option value="EUR">EUR ( Euro )</option>
-        </select>
-         <button id="button-actualiser">Actualiser</button>
-       </div>
-    </nav>
-    <main>
-        <img src="logo/lhorloge.png" id="logo-horloge">
+    <!-- Navigation Bar: Black background, flexbox to push items to opposite sides -->
+    <nav class="flex justify-between items-center bg-black text-white p-4 rounded-xl shadow-md mb-8 max-w-4xl mx-auto">
         
-        <p id="last-update"></p>
+        <div class="logo flex items-center gap-3">
+            <!-- Added a fixed width to the logo so it doesn't take over the screen -->
+            <img id="logo-mizan" src="logo/mizan.png" alt="logo-mizan" class="w-10 h-10 object-contain">
+            <h1 class="text-2xl font-bold tracking-wider">Mizan</h1>
+        </div>
         
-      <div id="metals-box">
-         
-          <div id="gold-card">
-              <h2>Gold</h2>
-              <p><span id="gold-price"></span> <span id="gold-currency"></span></p>
-          </div>
-
-          <div id="silver-card">
-              <h2>Silver</h2>
-              <p><span id="silver-price"></span> <span id="silver-currency"></span></p>
-          </div>
-      </div>
-      
-      <div id="small-block">
-        <div id="price-calculator">
-            <p>poids (grammes)</p>
-            <input id="weight">
-            <select  id="type-of-metal">
+        <div id="left-navigation" class="flex gap-4">
+            <select id="currency" class="bg-white text-black px-3 py-2 rounded-md outline-none cursor-pointer">
+                <option value="MAD">MAD ( Dirham )</option>
+                <option value="USD">USD ( Dollar )</option>
+                <option value="EUR">EUR ( Euro )</option>
             </select>
+            <button id="button-actualiser" class="bg-yellow-500 text-black px-5 py-2 rounded-md font-bold hover:bg-yellow-400 transition-colors">Actualiser</button>
         </div>
-        <div id="diagram">
+    </nav>
 
+    <main class="max-w-4xl mx-auto">
+        <!-- Timestamp Section -->
+        <div class="flex items-center justify-end gap-2 text-sm text-gray-500 mb-2">
+            <img src="logo/lhorloge.png" id="logo-horloge" class="w-4 h-4">
+            <p id="last-update">Dernière mise à jour...</p>
         </div>
+        
+        <!-- Metal Cards Grid -->
+        <div id="metals-box" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            
+            <!-- Gold Card -->
+            <div id="gold-card" class="bg-white rounded-xl shadow-md p-6  text-center">
+                <h2 class="text-2xl font-bold text-gray-700 mb-2">Gold</h2>
+                <p class="text-4xl font-bold text-gray-900">
+                    <span id="gold-price">--</span> 
+                    <span id="gold-currency" class="text-xl text-gray-500 ml-1"></span>
+                </p>
+            </div>
+
+            <!-- Silver Card -->
+            <div id="silver-card" class="bg-white rounded-xl shadow-md p-6 border-t-4  text-center">
+                <h2 class="text-2xl font-bold text-gray-700 mb-2">Silver</h2>
+                <p class="text-4xl font-bold text-gray-900">
+                    <span id="silver-price">--</span> 
+                    <span id="silver-currency" class="text-xl text-gray-500 ml-1"></span>
+                </p>
+            </div>
+        </div>
+      
+        <!-- Bottom Calculator Section -->
+        <div id="small-block" class="bg-white rounded-xl shadow-md p-6 mt-6">
+            <h2 class="text-lg font-bold text-gray-700 mb-4">Calculateur de prix</h2>
+            <div id="price-calculator" class="flex flex-col sm:flex-row gap-4 items-end">
+                
+                <div class="flex flex-col w-full">
+                    <label class="text-sm text-gray-600 mb-1">Poids (grammes)</label>
+                    <input id="weight" type="number" class="border border-gray-300 rounded-md px-3 py-2 outline-none " placeholder="0.00">
+                </div>
+                
+                <div class="flex flex-col w-full">
+                    <label class="text-sm text-gray-600 mb-1">Métal</label>
+                    <select id="type-of-metal" class="border border-gray-300 rounded-md px-3 py-2 outline-none  bg-white">
+                        <option value="gold">Gold</option>
+                        <option value="silver">Silver</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="diagram" class="mt-4">
+                <!-- Diagram space -->
+            </div>
         </div>
 
     </main>
-    
 </body>
 <script type="module" src="./js/main.js"></script>
 </html>

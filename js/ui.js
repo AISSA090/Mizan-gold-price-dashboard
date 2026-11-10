@@ -5,3 +5,9 @@ export function displayGold(currency,data){
      priceElement.textContent = data.xau.price;
 
 }
+export function displaySilver(currency,data){
+    const pricesilver=document.getElementById("silver-price")
+    const currencysilver=document.getElementById("silver-currency")
+    currencysilver.textContent=currency
+    pricesilver.textContent=data
+}
