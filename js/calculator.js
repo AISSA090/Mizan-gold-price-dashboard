@@ -20,3 +20,6 @@ export function calculatePercentage(array, metal, currency) {
 
     return percentage.toFixed(2);
 }
+export function calculatepricepergrame(price,gram){
+ return price *gram
+}

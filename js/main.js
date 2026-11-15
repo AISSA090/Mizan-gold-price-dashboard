@@ -1,6 +1,6 @@
 import { getgoldprices ,getgodhistory } from './api.js';
 import { displayGold , displaySilver , displaytime} from './ui.js';
-import { calculateSilverPerGram, calculatePercentage } from './calculator.js';
+import { calculateSilverPerGram, calculatePercentage ,calculatepricepergrame} from './calculator.js';
 import { savetolocal } from './storage.js';
 
 const btnactualiser = document.getElementById("button-actualiser");
@@ -140,6 +140,8 @@ btn7days.addEventListener('click',async function () {
     }
     
 })
+const poids=document.getElementById("weight")
+const metaltype=document.getElementById("type-of-metal").value;
 
 
 loadinitialprice();
