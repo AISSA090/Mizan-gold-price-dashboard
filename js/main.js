@@ -1,4 +1,4 @@
-import { getgoldprices } from './api.js';
+import { getgoldprices ,getgodhistory } from './api.js';
 import { displayGold , displaySilver , displaytime} from './ui.js';
 import { calculateSilverPerGram, calculatePercentage } from './calculator.js';
 import { savetolocal } from './storage.js';
@@ -73,4 +73,73 @@ choice.addEventListener('change',async function(){
     displaySilver(currency, silverprice.toFixed(2), silverPercentage);
     displaytime(data);
 })
+const btn7days=document.getElementById("btn-7days")
+const btn30days=document.getElementById("btn-30days")
+let goldchart=null
+
+function generatechart(date,prices,currency){
+    const ctx = document.getElementById('goldChart').getContext('2d');
+    if(goldchart){
+        goldchart.destroy()
+    }
+    
+      goldchart=new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: date,
+        datasets: [{
+            label: "Gold Price ("+currency+"/g)",
+            data: prices,
+            borderColor: '#D4AF37',
+            backgroundColor: 'rgba(212, 175, 55, 0.15)',
+            borderWidth: 2,
+            tension: 0.3,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                grid: { display: false }
+            }
+        }
+    }
+
+});
+    }
+btn30days.addEventListener('click',async function () {
+    const currency = document.getElementById("currency").value;
+    try {
+        const data= await  getgodhistory();
+        const goldData = await getgoldprices(currency);
+        const changerate=goldData.fx_rates[currency]
+        const last30Days=data.points.slice(-30);
+        const prices = last30Days.map(point => (point.c / 31.1035) * changerate);
+        const date =last30Days.map(n=>(n.d))
+        generatechart(date,prices,currency)
+        
+    } catch (error) {
+         alert("APi error"+error)
+    }
+    
+})
+btn7days.addEventListener('click',async function () {
+    const currency = document.getElementById("currency").value;
+    try {
+        const data= await  getgodhistory();
+        const goldData = await getgoldprices(currency);
+        const changerate=goldData.fx_rates[currency]
+        const last30Days=data.points.slice(-7);
+        const prices = last30Days.map(point => (point.c / 31.1035) * changerate);
+        const date =last30Days.map(n=>(n.d))
+        generatechart(date,prices,currency)
+        
+    } catch (error) {
+         alert("APi error"+error)
+    }
+    
+})
+
+
 loadinitialprice();
