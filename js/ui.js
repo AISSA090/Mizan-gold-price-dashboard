@@ -43,3 +43,28 @@ export function displaytime(data){
     const cleanDate = new Date(data.updated_at).toLocaleString('fr-FR');
     time.textContent=`last updated ${cleanDate}`
 }
+export function show(status) {
+    const loadingBox = document.getElementById("loading-box");
+    const successBox = document.getElementById("success-box");
+    const errorBox = document.getElementById("error-box");
+    const btnActualiser = document.getElementById("button-actualiser");
+    loadingBox.classList.add("hidden");
+    successBox.classList.add("hidden");
+    errorBox.classList.add("hidden");
+
+    if (status === "success") {
+        successBox.classList.remove("hidden");
+        btnActualiser.disabled = false;
+        setTimeout(() => {
+            successBox.classList.add("hidden");
+        }, 2500);
+
+    } else if (status === "error") {
+        errorBox.classList.remove("hidden");
+        btnActualiser.disabled = false;
+
+    } else if (status === "loading") {
+        loadingBox.classList.remove("hidden");
+        btnActualiser.disabled = true;
+    }
+}

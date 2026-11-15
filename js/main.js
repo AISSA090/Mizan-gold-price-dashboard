@@ -1,5 +1,5 @@
 import { getgoldprices ,getgodhistory } from './api.js';
-import { displayGold , displaySilver , displaytime} from './ui.js';
+import { displayGold , displaySilver , displaytime , show} from './ui.js';
 import { calculateSilverPerGram, calculatePercentage ,calculatepricepergrame} from './calculator.js';
 import { savetolocal } from './storage.js';
 
@@ -11,6 +11,7 @@ const choice=document.getElementById("currency")
 btnactualiser.addEventListener('click', async function() {
     const currency = document.getElementById("currency").value;
     try {
+         show("loading")
             const data = await getgoldprices(currency);
             
                 const silverprice = calculateSilverPerGram(data.silver_usd_oz, currency, data.fx_rates[currency]);
@@ -35,8 +36,10 @@ btnactualiser.addEventListener('click', async function() {
                     displaySilver("EUR", silverprice.toFixed(2), silverPercentage);
                     displaytime(data);
                 }
+                show("success")
     } catch (error) {
-        alert("APi error"+error)
+       
+        show("error")
         
     }
 });
@@ -61,7 +64,9 @@ async function loadinitialprice() {
 }
 choice.addEventListener('change',async function(){
   const currency=document.getElementById("currency").value;
+  show("loading")
   const data = await getgoldprices(currency);
+  show("success")
  const silverprice = calculateSilverPerGram(data.silver_usd_oz, currency, data.fx_rates[currency]);
   const goldprice = data.xau.price;
   const silverPercentage = calculatePercentage(savingmetalprice, "silver", currency, silverprice);
@@ -111,6 +116,7 @@ function generatechart(date,prices,currency){
 btn30days.addEventListener('click',async function () {
     const currency = document.getElementById("currency").value;
     try {
+        show("loading")
         const data= await  getgodhistory();
         const goldData = await getgoldprices(currency);
         const changerate=goldData.fx_rates[currency]
@@ -118,15 +124,16 @@ btn30days.addEventListener('click',async function () {
         const prices = last30Days.map(point => (point.c / 31.1035) * changerate);
         const date =last30Days.map(n=>(n.d))
         generatechart(date,prices,currency)
-        
+        show("success")
     } catch (error) {
-         alert("APi error"+error)
+         show("error")
     }
     
 })
 btn7days.addEventListener('click',async function () {
     const currency = document.getElementById("currency").value;
     try {
+        show("loading")
         const data= await  getgodhistory();
         const goldData = await getgoldprices(currency);
         const changerate=goldData.fx_rates[currency]
@@ -134,9 +141,10 @@ btn7days.addEventListener('click',async function () {
         const prices = last30Days.map(point => (point.c / 31.1035) * changerate);
         const date =last30Days.map(n=>(n.d))
         generatechart(date,prices,currency)
+        show("success")
         
     } catch (error) {
-         alert("APi error"+error)
+         show("error")
     }
     
 })
@@ -146,7 +154,7 @@ poids.addEventListener('input',async function(){
     const poids=document.getElementById("weight").value;
     const metaltype=document.getElementById("type-of-metal").value;
     const currency = document.getElementById("currency").value;
-    if (poids===""){
+    if (poids==="" || parseFloat(poids) <= 0){
         priceestimation.textContent="---"
         return ;
     }
@@ -154,9 +162,10 @@ poids.addEventListener('input',async function(){
         try {
             const data=await  getgoldprices(currency);
             const goldprice = data.xau.price;
-            priceestimation.textContent=calculatepricepergrame(goldprice,poids)+currency
+            priceestimation.textContent=calculatepricepergrame(goldprice,poids).toFixed(2)+currency
+            show("success")
         } catch (error) {
-               alert("APi error"+error)
+              show("error")
         }
         
      }else{
@@ -165,8 +174,9 @@ poids.addEventListener('input',async function(){
             const changerate=data.fx_rates[currency]
             const silverprice = calculateSilverPerGram(data.silver_usd_oz, currency, changerate);
             priceestimation.textContent=calculatepricepergrame(silverprice.toFixed(2),poids)+currency
+            show("success")
         } catch (error) {
-               alert("APi error"+error)
+               show("error")
         }
      }
     

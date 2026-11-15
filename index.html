@@ -31,6 +31,18 @@
             <img src="logo/lhorloge.png" id="logo-horloge" class="w-4 h-4">
             <p id="last-update"></p>
         </div>
+        <div id="loading-box" class="hidden my-3 p-3 rounded-lg bg-yellow-100 text-yellow-800 text-sm font-medium">
+                   Chargement ...
+         </div>
+
+        <div id="success-box" class="hidden my-3 p-3 rounded-lg bg-green-100 text-green-800 text-sm font-medium">
+             success
+         </div>
+
+         <div id="error-box" class="hidden my-3 p-3 rounded-lg bg-red-100 text-red-800 text-sm font-medium flex items-center justify-between">
+         <span id="error-text">Erreur de connexion à l'API.</span>
+        <button id="retry-btn" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"> Retry</button>
+</div>
         
         <div id="metals-box" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
             
