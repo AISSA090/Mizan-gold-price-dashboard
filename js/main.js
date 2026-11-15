@@ -1,6 +1,6 @@
 import { getgoldprices ,getgodhistory } from './api.js';
 import { displayGold , displaySilver , displaytime} from './ui.js';
-import { calculateSilverPerGram, calculatePercentage } from './calculator.js';
+import { calculateSilverPerGram, calculatePercentage ,calculatepricepergrame} from './calculator.js';
 import { savetolocal } from './storage.js';
 
 const btnactualiser = document.getElementById("button-actualiser");
@@ -16,12 +16,12 @@ btnactualiser.addEventListener('click', async function() {
                 const silverprice = calculateSilverPerGram(data.silver_usd_oz, currency, data.fx_rates[currency]);
                 const goldprice = data.xau.price;
             
-                savetolocal(savingmetalprice, currency, silverprice, "silver");
-                savetolocal(savingmetalprice, currency, goldprice, "Gold");
-            
+                
                 const silverPercentage = calculatePercentage(savingmetalprice, "silver", currency);
                 const goldPercentage = calculatePercentage(savingmetalprice, "Gold", currency);
-            
+                
+                savetolocal(savingmetalprice, currency, silverprice, "silver");
+                savetolocal(savingmetalprice, currency, goldprice, "Gold");
                 if (currency === "MAD") {
                     displayGold("MAD", data, goldPercentage);
                     displaySilver("MAD", silverprice.toFixed(2), silverPercentage);
@@ -42,10 +42,7 @@ btnactualiser.addEventListener('click', async function() {
 });
 
 async function loadinitialprice() {
-    let savedCurrency = "MAD"; 
-    if (savingmetalprice.length > 0) {
-        savedCurrency = savingmetalprice[savingmetalprice.length - 1].currency;
-    }
+  const savedCurrency =localStorage.getItem("selectedCurrency") || "MAD";
     document.getElementById("currency").value = savedCurrency;
 
     const data = await getgoldprices(savedCurrency);
@@ -68,7 +65,10 @@ choice.addEventListener('change',async function(){
  const silverprice = calculateSilverPerGram(data.silver_usd_oz, currency, data.fx_rates[currency]);
   const goldprice = data.xau.price;
   const silverPercentage = calculatePercentage(savingmetalprice, "silver", currency, silverprice);
-   const goldPercentage = calculatePercentage(savingmetalprice, "Gold", currency, goldprice);
+ const goldPercentage = calculatePercentage(savingmetalprice, "Gold", currency, goldprice);
+  localStorage.setItem("selectedCurrency", currency);
+    savetolocal(savingmetalprice, currency, silverprice, "silver");
+    savetolocal(savingmetalprice, currency, goldprice, "Gold");
     displayGold(currency, data, goldPercentage);
     displaySilver(currency, silverprice.toFixed(2), silverPercentage);
     displaytime(data);
@@ -138,6 +138,37 @@ btn7days.addEventListener('click',async function () {
     } catch (error) {
          alert("APi error"+error)
     }
+    
+})
+const poids=document.getElementById("weight")
+const priceestimation=document.getElementById("estimated-price")
+poids.addEventListener('input',async function(){
+    const poids=document.getElementById("weight").value;
+    const metaltype=document.getElementById("type-of-metal").value;
+    const currency = document.getElementById("currency").value;
+    if (poids===""){
+        priceestimation.textContent="---"
+        return ;
+    }
+     if(metaltype==="gold") {
+        try {
+            const data=await  getgoldprices(currency);
+            const goldprice = data.xau.price;
+            priceestimation.textContent=calculatepricepergrame(goldprice,poids)+currency
+        } catch (error) {
+               alert("APi error"+error)
+        }
+        
+     }else{
+          try {
+            const data=await  getgoldprices(currency);
+            const changerate=data.fx_rates[currency]
+            const silverprice = calculateSilverPerGram(data.silver_usd_oz, currency, changerate);
+            priceestimation.textContent=calculatepricepergrame(silverprice.toFixed(2),poids)+currency
+        } catch (error) {
+               alert("APi error"+error)
+        }
+     }
     
 })
 
