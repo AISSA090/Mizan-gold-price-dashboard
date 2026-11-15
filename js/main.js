@@ -10,28 +10,34 @@ const choice=document.getElementById("currency")
 
 btnactualiser.addEventListener('click', async function() {
     const currency = document.getElementById("currency").value;
-    const data = await getgoldprices(currency);
-    const silverprice = calculateSilverPerGram(data.silver_usd_oz, currency, data.fx_rates[currency]);
-    const goldprice = data.xau.price;
-
-    savetolocal(savingmetalprice, currency, silverprice, "silver");
-    savetolocal(savingmetalprice, currency, goldprice, "Gold");
-
-    const silverPercentage = calculatePercentage(savingmetalprice, "silver", currency);
-    const goldPercentage = calculatePercentage(savingmetalprice, "Gold", currency);
-
-    if (currency === "MAD") {
-        displayGold("MAD", data, goldPercentage);
-        displaySilver("MAD", silverprice.toFixed(2), silverPercentage);
-        displaytime(data);
-    } else if (currency === "USD") {
-        displayGold("USD", data, goldPercentage);
-        displaySilver("USD", silverprice.toFixed(2), silverPercentage);
-        displaytime(data);
-    } else if (currency === "EUR") {
-        displayGold("EUR", data, goldPercentage);
-        displaySilver("EUR", silverprice.toFixed(2), silverPercentage);
-        displaytime(data);
+    try {
+            const data = await getgoldprices(currency);
+            
+                const silverprice = calculateSilverPerGram(data.silver_usd_oz, currency, data.fx_rates[currency]);
+                const goldprice = data.xau.price;
+            
+                savetolocal(savingmetalprice, currency, silverprice, "silver");
+                savetolocal(savingmetalprice, currency, goldprice, "Gold");
+            
+                const silverPercentage = calculatePercentage(savingmetalprice, "silver", currency);
+                const goldPercentage = calculatePercentage(savingmetalprice, "Gold", currency);
+            
+                if (currency === "MAD") {
+                    displayGold("MAD", data, goldPercentage);
+                    displaySilver("MAD", silverprice.toFixed(2), silverPercentage);
+                    displaytime(data);
+                } else if (currency === "USD") {
+                    displayGold("USD", data, goldPercentage);
+                    displaySilver("USD", silverprice.toFixed(2), silverPercentage);
+                    displaytime(data);
+                } else if (currency === "EUR") {
+                    displayGold("EUR", data, goldPercentage);
+                    displaySilver("EUR", silverprice.toFixed(2), silverPercentage);
+                    displaytime(data);
+                }
+    } catch (error) {
+        alert("APi error"+error)
+        
     }
 });
 
