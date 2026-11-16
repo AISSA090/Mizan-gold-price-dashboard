@@ -184,3 +184,5 @@ poids.addEventListener('input',async function(){
 
 
 loadinitialprice();
+btn7days.click();
+btnactualiser.click();
